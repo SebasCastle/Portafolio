@@ -48,6 +48,7 @@ export const techFilters = [
   { id: "all", label: "All" },
   { id: "react", label: "React" },
   { id: "nestjs", label: "NestJS" },
+  { id: "aws", label: "AWS" },
   { id: "sql", label: "SQL" },
   { id: "excel-vba", label: "Excel VBA" },
   { id: "wordpress", label: "WordPress" },
@@ -75,6 +76,7 @@ export const projects: Project[] = [
     ],
     gradient: "from-blue-500/30 via-cyan-500/10 to-indigo-500/20",
     icon: "⚛️",
+    image: "/projects/react-mini-games.webp",
     features: [
       "Scramble words game with scoring and confetti feedback",
       "GIF search with debounce and previous searches",
@@ -102,6 +104,7 @@ export const projects: Project[] = [
     demos: [{ label: "Live Demo", href: "https://devtree-uag.netlify.app/Home" }],
     gradient: "from-emerald-500/25 via-blue-500/10 to-cyan-500/20",
     icon: "🛜",
+    image: "/projects/devtree.webp",
     features: [
       "Centralized social links",
       "Auth demo credentials for exploration",
@@ -128,6 +131,7 @@ export const projects: Project[] = [
     demos: [],
     gradient: "from-green-500/25 via-emerald-500/10 to-lime-500/15",
     icon: "📈",
+    image: "/projects/excel-vba.webp",
     features: [
       "Automated quote generation",
       "Form-driven logging",
@@ -154,10 +158,41 @@ export const projects: Project[] = [
     ],
     gradient: "from-orange-500/25 via-amber-500/10 to-rose-500/15",
     icon: "🌐",
+    image: "/projects/wordpress.webp",
     features: [
       "Responsive modern layouts",
       "Performance and SEO basics",
       "Builder workflows with Elementor / Breakdance",
+    ],
+  },
+  {
+    id: "aws-data-sync",
+    slug: "aws-data-sync",
+    title: "AWS Data Sync",
+    summary: "Cloud data synchronization across AWS with NestJS, workers, and BAT orchestration.",
+    description:
+      "Data sync pipeline for AWS instances using NestJS APIs, JavaScript workers, and BAT scripts for reliable job orchestration.",
+    overview:
+      "An integration-focused system that keeps business data in sync with AWS-hosted instances. NestJS exposes the API layer, JavaScript workers handle background processing, and Windows BAT scripts orchestrate scheduled or on-demand runs for RA/WPA-related workflows.",
+    category: "data",
+    technologies: ["AWS", "NestJS", "Node.js", "Worker JS", "BAT"],
+    techIds: ["aws", "nestjs"],
+    featured: true,
+    codeUrl: "https://github.com/SebasCastle/API-de-RAs-y-WPAs",
+    demos: [],
+    gradient: "from-orange-500/30 via-sky-500/10 to-amber-500/20",
+    icon: "☁️",
+    image: "/projects/aws-data-sync.webp",
+    features: [
+      "AWS instance data synchronization",
+      "NestJS API for sync and orchestration endpoints",
+      "Background Worker JS processing",
+      "BAT scripts for scheduled and manual job runs",
+    ],
+    architecture: [
+      { label: "API", items: ["NestJS", "REST"] },
+      { label: "Workers", items: ["JavaScript workers", "Background jobs"] },
+      { label: "Ops", items: ["AWS instance", "BAT orchestration"] },
     ],
   },
   {
@@ -176,6 +211,7 @@ export const projects: Project[] = [
     demos: [],
     gradient: "from-red-500/20 via-rose-500/10 to-orange-500/15",
     icon: "💻",
+    image: "/projects/nestjs.webp",
     features: ["Modular NestJS structure", "Schema validation with zod"],
   },
   {
@@ -188,12 +224,13 @@ export const projects: Project[] = [
       "Upcoming work across AI tooling, MCP integrations, and cloud infrastructure.",
     category: "other",
     technologies: ["AWS", "Google Cloud", "GPT", "Linux"],
-    techIds: ["cloud"],
+    techIds: ["aws", "cloud"],
     featured: false,
     codeUrl: "https://github.com/SebasCastle",
     demos: [],
     gradient: "from-violet-500/25 via-blue-500/10 to-fuchsia-500/15",
     icon: "🔜",
+    image: "/projects/coming-soon.webp",
     features: ["AI / MCP experiments", "Cloud learning path"],
   },
 ]
