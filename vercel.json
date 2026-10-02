@@ -1,7 +1,14 @@
 {
+  "redirects": [
+    {
+      "source": "/cv.html",
+      "destination": "/cv/Sebastian_Castillo_Zamudio_CV_EN.pdf",
+      "permanent": false
+    }
+  ],
   "rewrites": [
     {
-      "source": "/(.*)",
+      "source": "/((?!cv/).*)",
       "destination": "/index.html"
     }
   ]
