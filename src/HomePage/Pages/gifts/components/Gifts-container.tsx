@@ -12,9 +12,16 @@ export const GiftsList: FC <Props> = ({gifts}) => {
             {
                 gifts.map((gif) =>(
                     <div key={gif.id} className="gift-card">
-                        <img src={gif.url} alt={gif.title} />
+                        <img
+                          src={gif.url}
+                          alt={gif.title}
+                          loading="lazy"
+                          decoding="async"
+                          width={gif.width || 200}
+                          height={gif.height || 200}
+                        />
                         <h3>{gif.title}</h3>
-                        <p>{gif.width} x {gif.height} (1.5mb)</p>
+                        <p>{gif.width} x {gif.height}</p>
                     </div>
                 ))
             }

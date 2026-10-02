@@ -1,23 +1,41 @@
-import { Footer } from "../Components/CustomFooder";
-import { Navbar } from "../Components/CustomHedaer";
-import { AboutSection } from "./Components/about-section";
-import { ContactSection } from "./Components/contact-section";
-import { ExperienceSection } from "./Components/experience-section";
-import { HeroSection } from "./Components/hero-section";
-import { ProjectsSection } from "./Components/projects-section";
-import { SkillsSection } from "./Components/skills-section";
+import { lazy, Suspense } from "react"
+import { DocumentMeta } from "@/Components/seo/DocumentMeta"
+import { Footer } from "@/Components/CustomFooder"
+import { Navbar } from "@/Components/CustomHedaer"
+import { HeroSection } from "./Components/hero-section"
+import { StatsSection } from "./Components/stats-section"
+import { ProjectsSection } from "./Components/projects-section"
+
+const SkillsSection = lazy(() =>
+  import("./Components/skills-section").then((m) => ({ default: m.SkillsSection }))
+)
+const ExperienceSection = lazy(() =>
+  import("./Components/experience-section").then((m) => ({ default: m.ExperienceSection }))
+)
+const ContactSection = lazy(() =>
+  import("./Components/contact-section").then((m) => ({ default: m.ContactSection }))
+)
+
+function SectionFallback() {
+  return <div className="min-h-[10rem]" aria-hidden />
+}
 
 export const HomePage = () => {
   return (
     <>
-    <Navbar />
-      <HeroSection />
-      <ProjectsSection />
-      <SkillsSection />
-      <ExperienceSection />
-      <AboutSection />
-      <ContactSection />
+      <DocumentMeta path="/Home" />
+      <Navbar />
+      <main>
+        <HeroSection />
+        <StatsSection />
+        <ProjectsSection />
+        <Suspense fallback={<SectionFallback />}>
+          <SkillsSection />
+          <ExperienceSection />
+          <ContactSection />
+        </Suspense>
+      </main>
       <Footer />
     </>
-  );
-};
+  )
+}

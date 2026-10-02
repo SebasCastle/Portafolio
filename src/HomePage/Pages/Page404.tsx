@@ -1,5 +1,9 @@
 export const Page404 = () => {
   return (
-    <div className="text-center font-extrabold text-6xl to-blue-500 p-5">Something is wrong...</div>
+    <div className="min-h-[100svh] flex items-center justify-center px-4">
+      <p className="text-center font-extrabold text-3xl sm:text-5xl md:text-6xl text-foreground">
+        Something is wrong...
+      </p>
+    </div>
   )
 }

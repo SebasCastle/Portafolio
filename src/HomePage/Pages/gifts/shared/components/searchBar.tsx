@@ -39,7 +39,7 @@ export const SearchBar = ({placeholder = 'buscar', onQuery}:Props)  => {
     }
 
 
-    const handleKeyDown : any = (event : KeyboardEvent<HTMLInputElement>) => {
+    const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
                 if(event.key=="Enter"){
                     handleSearch();
                 }
