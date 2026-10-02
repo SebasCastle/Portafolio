@@ -15,7 +15,7 @@ const skills = [
 
 export function SkillsSection() {
   return (
-    <section id="skills" className="py-32 px-6 relative overflow-hidden">
+    <section id="skills" className="py-16 sm:py-24 md:py-32 px-4 sm:px-6 relative overflow-hidden">
       {/* Background decoration */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-1/2 left-0 w-96 h-96 bg-accent/5 rounded-full blur-3xl -translate-x-1/2" />
@@ -28,9 +28,9 @@ export function SkillsSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-20"
+          className="text-center mb-12 sm:mb-20"
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6">
             <span className="gradient-text">Skills & Technologies</span>
           </h2>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
@@ -48,9 +48,9 @@ export function SkillsSection() {
               transition={{ duration: 0.5, delay: index * 0.1 }}
               className="group"
             >
-              <div className="glass rounded-2xl p-6 h-full hover:border-accent/30 transition-all duration-300 hover:scale-105">
+              <div className="glass rounded-2xl p-5 sm:p-6 h-full hover:border-accent/30 transition-all duration-300 sm:hover:scale-105">
                 <div className="flex items-center gap-4 mb-4">
-                  <span className="text-4xl group-hover:scale-110 transition-transform duration-300">
+                  <span className="text-3xl sm:text-4xl group-hover:scale-110 transition-transform duration-300">
                     {skill.icon}
                   </span>
                   <div>

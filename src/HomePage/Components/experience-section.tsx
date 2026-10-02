@@ -31,16 +31,16 @@ const timeline = [
 
 export function ExperienceSection() {
   return (
-    <section id="experience" className="py-32 px-6">
+    <section id="experience" className="py-16 sm:py-24 md:py-32 px-4 sm:px-6">
       <div className="max-w-4xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-20"
+          className="text-center mb-12 sm:mb-20"
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6">
             <span className="gradient-text">My Journey</span>
           </h2>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
@@ -50,7 +50,7 @@ export function ExperienceSection() {
 
         <div className="relative">
           {/* Timeline line */}
-          <div className="absolute left-8 top-0 bottom-0 w-px bg-gradient-to-b from-accent/50 via-accent/20 to-transparent md:left-1/2 md:-translate-x-px" />
+          <div className="absolute left-4 sm:left-8 top-0 bottom-0 w-px bg-gradient-to-b from-accent/50 via-accent/20 to-transparent md:left-1/2 md:-translate-x-px" />
 
           {timeline.map((item, index) => (
             <motion.div
@@ -59,25 +59,25 @@ export function ExperienceSection() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className={`relative flex items-center mb-12 ${
+              className={`relative flex items-center mb-8 sm:mb-12 ${
                 index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
               }`}
             >
               {/* Timeline dot */}
-              <div className="absolute left-8 md:left-1/2 w-4 h-4 bg-accent rounded-full -translate-x-1/2 z-10 glow" />
+              <div className="absolute left-4 sm:left-8 md:left-1/2 w-3 h-3 sm:w-4 sm:h-4 bg-accent rounded-full -translate-x-1/2 z-10 glow" />
               {/* Content card */}
-              <div className={`ml-20 md:ml-0 md:w-1/2 ${
+              <div className={`ml-10 sm:ml-20 md:ml-0 md:w-1/2 ${
                 index % 2 === 0 ? "md:pr-16 md:text-right" : "md:pl-16"
               }`}>
-                <div className="glass rounded-2xl p-6 hover:border-accent/30 transition-all duration-300">
+                <div className="glass rounded-2xl p-4 sm:p-6 hover:border-accent/30 transition-all duration-300">
                   <div className={`flex items-center gap-3 mb-3 ${
                     index % 2 === 0 ? "md:flex-row-reverse" : ""
                   }`}>
-                    <span className="text-3xl">{item.icon}</span>
+                    <span className="text-2xl sm:text-3xl">{item.icon}</span>
                     <span className="text-accent font-mono text-sm">{item.year}</span>
                   </div>
-                  <h3 className="text-xl font-semibold mb-2">{item.title}</h3>
-                  <p className="text-muted-foreground leading-relaxed">{item.description}</p>
+                  <h3 className="text-lg sm:text-xl font-semibold mb-2">{item.title}</h3>
+                  <p className="text-muted-foreground leading-relaxed text-sm sm:text-base">{item.description}</p>
                 </div>
               </div>
             </motion.div>
