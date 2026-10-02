@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useId, useRef, useState } from "react"
+import { useEffect, useId, useRef, useState, useSyncExternalStore } from "react"
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion"
 import { Github, ExternalLink } from "lucide-react"
 import { Link } from "react-router"
@@ -97,6 +97,20 @@ function isExternalPage(link: string) {
   return /^https?:\/\//.test(link)
 }
 
+function subscribeHoverCapability(onChange: () => void) {
+  const mql = window.matchMedia("(hover: hover) and (pointer: fine)")
+  mql.addEventListener("change", onChange)
+  return () => mql.removeEventListener("change", onChange)
+}
+
+function getHoverCapability() {
+  return window.matchMedia("(hover: hover) and (pointer: fine)").matches
+}
+
+function useCanHover() {
+  return useSyncExternalStore(subscribeHoverCapability, getHoverCapability, () => true)
+}
+
 const linkClassName =
   "min-h-11 min-w-11 px-4 py-2.5 rounded-full text-sm font-medium inline-flex items-center justify-center gap-2 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
 
@@ -108,6 +122,7 @@ function ProjectLinks({ project }: { project: Project }) {
         target="_blank"
         rel="noopener noreferrer"
         className={`${linkClassName} bg-primary text-primary-foreground hover:bg-primary/90`}
+        onClick={(event) => event.stopPropagation()}
       >
         <Github className="w-4 h-4 shrink-0" aria-hidden />
         Code
@@ -124,6 +139,7 @@ function ProjectLinks({ project }: { project: Project }) {
               target="_blank"
               rel="noopener noreferrer"
               className={`${linkClassName} glass hover:bg-white/20 max-w-full`}
+              onClick={(event) => event.stopPropagation()}
             >
               <ExternalLink className="w-4 h-4 shrink-0" aria-hidden />
               <span className="truncate">{formatPageLabel(link)}</span>
@@ -133,6 +149,7 @@ function ProjectLinks({ project }: { project: Project }) {
               key={link}
               to={link}
               className={`${linkClassName} glass hover:bg-white/20`}
+              onClick={(event) => event.stopPropagation()}
             >
               <ExternalLink className="w-4 h-4 shrink-0" aria-hidden />
               {formatPageLabel(link)}
@@ -153,21 +170,24 @@ function ProjectCard({
   index: number
   reduceMotion: boolean | null
 }) {
-  const [open, setOpen] = useState(false)
+  const canHover = useCanHover()
+  const [pinned, setPinned] = useState(false)
+  const [hovered, setHovered] = useState(false)
   const cardRef = useRef<HTMLElement>(null)
   const panelId = useId()
+  const showLinks = pinned || (canHover && hovered)
 
   useEffect(() => {
-    if (!open) return
+    if (!pinned) return
 
     const onPointerDown = (event: PointerEvent) => {
       if (!cardRef.current?.contains(event.target as Node)) {
-        setOpen(false)
+        setPinned(false)
       }
     }
 
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setOpen(false)
+      if (event.key === "Escape") setPinned(false)
     }
 
     document.addEventListener("pointerdown", onPointerDown)
@@ -176,7 +196,7 @@ function ProjectCard({
       document.removeEventListener("pointerdown", onPointerDown)
       document.removeEventListener("keydown", onKeyDown)
     }
-  }, [open])
+  }, [pinned])
 
   return (
     <motion.article
@@ -187,64 +207,78 @@ function ProjectCard({
       exit={{ opacity: 0, scale: 0.96 }}
       transition={{ duration: 0.35, delay: reduceMotion ? 0 : index * 0.05 }}
       className="group relative"
+      onMouseEnter={() => {
+        if (canHover) setHovered(true)
+      }}
+      onMouseLeave={() => {
+        if (canHover) setHovered(false)
+      }}
+      onFocusCapture={() => setPinned(true)}
+      onBlurCapture={(event) => {
+        const next = event.relatedTarget as Node | null
+        if (!cardRef.current?.contains(next)) {
+          setPinned(false)
+        }
+      }}
     >
       <div
-        className={`glass rounded-2xl sm:rounded-3xl overflow-hidden transition-all duration-500 h-full flex flex-col hover:border-accent/30 group-focus-within:border-accent/30 ${
-          open ? "border-accent/30" : ""
+        className={`glass rounded-2xl sm:rounded-3xl overflow-hidden transition-all duration-500 h-full flex flex-col ${
+          showLinks ? "border-accent/30" : "hover:border-accent/30"
         }`}
       >
         <div
-          data-open={open ? "true" : "false"}
           className={`relative h-48 sm:h-64 bg-gradient-to-br ${project.gradient} flex items-center justify-center overflow-hidden z-10`}
         >
           <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent" />
           <span
-            className={`text-6xl sm:text-8xl relative transition-transform duration-500 group-hover:scale-110 group-focus-within:scale-110 ${
-              open ? "scale-110" : ""
+            className={`text-6xl sm:text-8xl relative transition-transform duration-500 ${
+              showLinks ? "scale-110" : ""
             }`}
             aria-hidden
           >
             {project.icon}
           </span>
 
-          {/*
-            Touch: first tap reveals links (no navigation).
-            Fine pointer: hover CSS reveals; this control stays out of the way.
-            Keyboard: control remains focusable to open the panel.
-          */}
-          <button
-            type="button"
-            className={`absolute inset-0 z-20 transition-opacity duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset ${
-              open
-                ? "opacity-0 pointer-events-none"
-                : "opacity-100 [@media(hover:hover)_and_(pointer:fine)]:opacity-0 [@media(hover:hover)_and_(pointer:fine)]:pointer-events-none"
-            }`}
-            aria-expanded={open}
-            aria-controls={panelId}
-            onClick={() => setOpen(true)}
-          >
-            <span className="sr-only">Show links for {project.title}</span>
-            <span className="absolute bottom-3 left-1/2 -translate-x-1/2 glass px-4 py-2 rounded-full text-xs sm:text-sm font-medium text-foreground/90 whitespace-nowrap pointer-events-none [@media(hover:hover)_and_(pointer:fine)]:hidden">
-              Tap for links
-            </span>
-          </button>
+          {!canHover && (
+            <button
+              type="button"
+              className={`absolute inset-0 z-20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset ${
+                showLinks ? "opacity-0 pointer-events-none" : "opacity-100"
+              }`}
+              tabIndex={showLinks ? -1 : 0}
+              aria-expanded={showLinks}
+              aria-controls={panelId}
+              onClick={() => setPinned(true)}
+            >
+              <span className="sr-only">Show links for {project.title}</span>
+              <span className="absolute bottom-3 left-1/2 -translate-x-1/2 glass px-4 py-2 rounded-full text-xs sm:text-sm font-medium text-foreground/90 whitespace-nowrap pointer-events-none">
+                Tap for links
+              </span>
+            </button>
+          )}
 
           <div
             id={panelId}
             role="group"
             aria-label={`${project.title} project links`}
-            data-open={open ? "true" : "false"}
-            onClick={(event) => {
-              if (event.target === event.currentTarget) setOpen(false)
+            aria-hidden={!showLinks}
+            className={`absolute inset-0 z-30 bg-background/70 backdrop-blur-[2px] flex items-center justify-center transition-opacity duration-300 ${
+              showLinks ? "opacity-100" : "opacity-0 pointer-events-none"
+            }`}
+            onClick={() => {
+              if (!canHover) setPinned(false)
             }}
-            className="absolute inset-0 z-30 bg-background/70 backdrop-blur-[2px] flex items-center justify-center transition-opacity duration-300 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto group-focus-within:opacity-100 group-focus-within:pointer-events-auto data-[open=true]:opacity-100 data-[open=true]:pointer-events-auto"
           >
             <ProjectLinks project={project} />
           </div>
         </div>
 
         <div className="p-5 sm:p-8 flex flex-col flex-1">
-          <h3 className="text-xl sm:text-2xl font-semibold mb-2 sm:mb-3 transition-colors duration-300 group-hover:text-accent group-focus-within:text-accent">
+          <h3
+            className={`text-xl sm:text-2xl font-semibold mb-2 sm:mb-3 transition-colors duration-300 ${
+              showLinks ? "text-accent" : ""
+            }`}
+          >
             {project.title}
           </h3>
           <p className="text-muted-foreground mb-4 sm:mb-6 leading-relaxed text-sm sm:text-base">
