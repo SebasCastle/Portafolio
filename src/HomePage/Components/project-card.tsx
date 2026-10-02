@@ -73,17 +73,33 @@ export function ProjectCard({ project, index = 0, compact = false }: ProjectCard
             compact ? "h-40 sm:h-48" : "h-48 sm:h-56"
           )}
         >
-          <div className={cn("absolute inset-0 bg-gradient-to-br", project.gradient)} />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(96,165,250,0.18),transparent_55%)]" />
-          <span
-            className={cn(
-              "relative text-5xl sm:text-6xl transition-transform duration-500",
-              showLinks && "scale-110"
-            )}
-            aria-hidden
-          >
-            {project.icon}
-          </span>
+          {project.image ? (
+            <img
+              src={project.image}
+              alt=""
+              aria-hidden
+              className={cn(
+                "absolute inset-0 h-full w-full object-cover transition-transform duration-500",
+                showLinks && "scale-105"
+              )}
+              loading="lazy"
+              decoding="async"
+            />
+          ) : (
+            <>
+              <div className={cn("absolute inset-0 bg-gradient-to-br", project.gradient)} />
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(96,165,250,0.18),transparent_55%)]" />
+              <span
+                className={cn(
+                  "relative text-5xl sm:text-6xl transition-transform duration-500",
+                  showLinks && "scale-110"
+                )}
+                aria-hidden
+              >
+                {project.icon}
+              </span>
+            </>
+          )}
 
           <button
             type="button"
