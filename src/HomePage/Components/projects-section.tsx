@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useId, useRef, useState, useSyncExternalStore } from "react"
+import { useEffect, useId, useRef, useState } from "react"
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion"
 import { Github, ExternalLink } from "lucide-react"
 import { Link } from "react-router"
@@ -97,20 +97,6 @@ function isExternalPage(link: string) {
   return /^https?:\/\//.test(link)
 }
 
-function subscribeHoverCapability(onChange: () => void) {
-  const mql = window.matchMedia("(hover: hover) and (pointer: fine)")
-  mql.addEventListener("change", onChange)
-  return () => mql.removeEventListener("change", onChange)
-}
-
-function getHoverCapability() {
-  return window.matchMedia("(hover: hover) and (pointer: fine)").matches
-}
-
-function useCanHover() {
-  return useSyncExternalStore(subscribeHoverCapability, getHoverCapability, () => true)
-}
-
 const linkClassName =
   "min-h-11 min-w-11 px-4 py-2.5 rounded-full text-sm font-medium inline-flex items-center justify-center gap-2 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
 
@@ -170,12 +156,11 @@ function ProjectCard({
   index: number
   reduceMotion: boolean | null
 }) {
-  const canHover = useCanHover()
   const [pinned, setPinned] = useState(false)
   const [hovered, setHovered] = useState(false)
   const cardRef = useRef<HTMLElement>(null)
   const panelId = useId()
-  const showLinks = pinned || (canHover && hovered)
+  const showLinks = pinned || hovered
 
   useEffect(() => {
     if (!pinned) return
@@ -207,12 +192,8 @@ function ProjectCard({
       exit={{ opacity: 0, scale: 0.96 }}
       transition={{ duration: 0.35, delay: reduceMotion ? 0 : index * 0.05 }}
       className="group relative"
-      onMouseEnter={() => {
-        if (canHover) setHovered(true)
-      }}
-      onMouseLeave={() => {
-        if (canHover) setHovered(false)
-      }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
       onFocusCapture={() => setPinned(true)}
       onBlurCapture={(event) => {
         const next = event.relatedTarget as Node | null
@@ -239,23 +220,21 @@ function ProjectCard({
             {project.icon}
           </span>
 
-          {!canHover && (
-            <button
-              type="button"
-              className={`absolute inset-0 z-20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset ${
-                showLinks ? "opacity-0 pointer-events-none" : "opacity-100"
-              }`}
-              tabIndex={showLinks ? -1 : 0}
-              aria-expanded={showLinks}
-              aria-controls={panelId}
-              onClick={() => setPinned(true)}
-            >
-              <span className="sr-only">Show links for {project.title}</span>
-              <span className="absolute bottom-3 left-1/2 -translate-x-1/2 glass px-4 py-2 rounded-full text-xs sm:text-sm font-medium text-foreground/90 whitespace-nowrap pointer-events-none">
-                Tap for links
-              </span>
-            </button>
-          )}
+          <button
+            type="button"
+            className={`absolute inset-0 z-20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset ${
+              showLinks ? "opacity-0 pointer-events-none" : "opacity-100"
+            }`}
+            tabIndex={showLinks ? -1 : 0}
+            aria-expanded={showLinks}
+            aria-controls={panelId}
+            onClick={() => setPinned(true)}
+          >
+            <span className="sr-only">Show links for {project.title}</span>
+            <span className="absolute bottom-3 left-1/2 -translate-x-1/2 glass px-4 py-2 rounded-full text-xs sm:text-sm font-medium text-foreground/90 whitespace-nowrap pointer-events-none sm:hidden">
+              Tap for links
+            </span>
+          </button>
 
           <div
             id={panelId}
@@ -265,9 +244,7 @@ function ProjectCard({
             className={`absolute inset-0 z-30 bg-background/70 backdrop-blur-[2px] flex items-center justify-center transition-opacity duration-300 ${
               showLinks ? "opacity-100" : "opacity-0 pointer-events-none"
             }`}
-            onClick={() => {
-              if (!canHover) setPinned(false)
-            }}
+            onClick={() => setPinned(false)}
           >
             <ProjectLinks project={project} />
           </div>
