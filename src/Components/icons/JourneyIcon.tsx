@@ -1,11 +1,11 @@
-import { Bot, Database, LineChart, TestTubeDiagonal } from "lucide-react"
+import { Bot, ClipboardCheck, Database, TrendingUp } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 const journeyIcons = {
   falcon: Bot,
-  avis: TestTubeDiagonal,
+  avis: ClipboardCheck,
   freelance: Database,
-  growth: LineChart,
+  growth: TrendingUp,
 } as const
 
 const journeyAccent: Record<keyof typeof journeyIcons, string> = {

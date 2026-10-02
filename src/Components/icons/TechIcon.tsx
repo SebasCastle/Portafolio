@@ -1,6 +1,7 @@
 import type { ComponentType } from "react"
 import { FaAws, FaJava } from "react-icons/fa6"
-import { Database, FileCode, GitBranch, Sheet, type LucideProps } from "lucide-react"
+import { PiMicrosoftExcelLogoFill } from "react-icons/pi"
+import { Database, FileCode, GitBranch, type LucideProps } from "lucide-react"
 import {
   SiCss,
   SiDocker,
@@ -16,8 +17,8 @@ import {
   SiReact,
   SiTailwindcss,
   SiTypescript,
-  SiVscodium,
 } from "react-icons/si"
+import { VscVscode } from "react-icons/vsc"
 import { cn } from "@/lib/utils"
 
 type BrandIcon = ComponentType<{ className?: string }>
@@ -36,13 +37,13 @@ const brandIcons: Record<string, BrandIcon> = {
   python: SiPython,
   mysql: SiMysql,
   postgresql: SiPostgresql,
-  excel: Sheet,
+  excel: PiMicrosoftExcelLogoFill,
   git: SiGithub,
   linux: SiLinux,
   aws: FaAws,
   docker: SiDocker,
-  vscode: SiVscodium,
-  "excel-vba": Sheet,
+  vscode: VscVscode,
+  "excel-vba": PiMicrosoftExcelLogoFill,
 }
 
 const lucideIcons: Record<string, LucideIcon> = {
@@ -69,7 +70,7 @@ const brandColor: Partial<Record<string, string>> = {
   linux: "text-foreground",
   aws: "text-[#FF9900]",
   docker: "text-[#2496ED]",
-  vscode: "text-[#22AACC]",
+  vscode: "text-[#007ACC]",
   "excel-vba": "text-[#217346]",
   sql: "text-accent",
   scripts: "text-accent",
