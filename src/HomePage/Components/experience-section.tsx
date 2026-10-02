@@ -1,87 +1,48 @@
-"use client"
-
-import { motion } from "framer-motion"
-
-const timeline = [
-  {
-    year: "2022-2023",
-    title: "Automation Projects (Falcon Tools)",
-    description: "Building advanced automation tools for business processes and data workflows using Excel.",
-    icon: "🤖",
-  },
-  {
-    year: "2024-2025",
-    title: "Data, design and QA Analyst (Avis)",
-    description: "Code improvement and optimization with Nest, as well as design with Tailwind and React, performing unit tests and analysis using Excel.",
-    icon: "📝",
-  },
-  {
-    year: "2024-2025",
-    title: "SQL & Database Design (Freelance)",
-    description: "Proficiency in database design and optimization, as well as the development of complex queries, for WordPress sites and design using Elementor and Breakdance.",
-    icon: "🗄️",
-  },
-  {
-    year: "Ongoing",
-    title: "Personal Growth",
-    description: "Continuous learning, coding and growing in the tech path.",
-    icon: "💻",
-  },
-]
+import { motion, useReducedMotion } from "framer-motion"
+import { SectionHeading } from "@/Components/ui/section-heading"
+import { journeyItems } from "@/data/journey"
 
 export function ExperienceSection() {
+  const reduceMotion = useReducedMotion()
+
   return (
-    <section id="experience" className="py-16 sm:py-24 md:py-32 px-4 sm:px-6">
+    <section id="journey" className="py-16 sm:py-24 md:py-28 px-4 sm:px-6">
       <div className="max-w-4xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-12 sm:mb-20"
-        >
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6">
-            <span className="gradient-text">My Journey</span>
-          </h2>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            Key milestones in my development career.
-          </p>
-        </motion.div>
+        <SectionHeading
+          eyebrow="Journey"
+          title="My Journey"
+          description="Key milestones across automation, product work, and continuous learning."
+        />
 
         <div className="relative">
-          {/* Timeline line */}
-          <div className="absolute left-4 sm:left-8 top-0 bottom-0 w-px bg-gradient-to-b from-accent/50 via-accent/20 to-transparent md:left-1/2 md:-translate-x-px" />
+          <div className="absolute left-4 sm:left-6 top-0 bottom-0 w-px bg-gradient-to-b from-accent via-violet-500/40 to-transparent" />
 
-          {timeline.map((item, index) => (
-            <motion.div
-              key={item.title}
-              initial={{ opacity: 0, x: index % 2 === 0 ? -30 : 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className={`relative flex items-center mb-8 sm:mb-12 ${
-                index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
-              }`}
-            >
-              {/* Timeline dot */}
-              <div className="absolute left-4 sm:left-8 md:left-1/2 w-3 h-3 sm:w-4 sm:h-4 bg-accent rounded-full -translate-x-1/2 z-10 glow" />
-              {/* Content card */}
-              <div className={`ml-10 sm:ml-20 md:ml-0 md:w-1/2 ${
-                index % 2 === 0 ? "md:pr-16 md:text-right" : "md:pl-16"
-              }`}>
-                <div className="glass rounded-2xl p-4 sm:p-6 hover:border-accent/30 transition-all duration-300">
-                  <div className={`flex items-center gap-3 mb-3 ${
-                    index % 2 === 0 ? "md:flex-row-reverse" : ""
-                  }`}>
-                    <span className="text-2xl sm:text-3xl">{item.icon}</span>
-                    <span className="text-accent font-mono text-sm">{item.year}</span>
+          <ol className="space-y-5 sm:space-y-6">
+            {journeyItems.map((item, index) => (
+              <motion.li
+                key={item.id}
+                initial={reduceMotion ? false : { opacity: 0, x: -16 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, margin: "-40px" }}
+                transition={{ duration: 0.4, delay: reduceMotion ? 0 : index * 0.05 }}
+                className="relative pl-14 sm:pl-20"
+              >
+                <span className="absolute left-4 sm:left-6 top-6 h-3 w-3 -translate-x-1/2 rounded-full bg-accent shadow-[0_0_0_4px_rgba(59,130,246,0.2)]" />
+                <article className="glow-card rounded-2xl p-5 sm:p-6">
+                  <div className="flex items-center gap-3 mb-2">
+                    <span className="text-2xl" aria-hidden>
+                      {item.icon}
+                    </span>
+                    <span className="text-accent font-mono text-xs sm:text-sm">{item.period}</span>
                   </div>
                   <h3 className="text-lg sm:text-xl font-semibold mb-2">{item.title}</h3>
-                  <p className="text-muted-foreground leading-relaxed text-sm sm:text-base">{item.description}</p>
-                </div>
-              </div>
-            </motion.div>
-          ))}
+                  <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
+                    {item.description}
+                  </p>
+                </article>
+              </motion.li>
+            ))}
+          </ol>
         </div>
       </div>
     </section>

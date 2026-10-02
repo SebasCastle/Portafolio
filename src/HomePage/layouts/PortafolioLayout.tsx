@@ -1,8 +1,9 @@
-import { Link, Outlet, useLocation } from "react-router";
+import { Link, Outlet, useLocation } from "react-router"
 
+/** Lightweight chrome for nested demo routes when reused. */
 export const PortafolioLayout = () => {
-  const url = useLocation();
-  const showBackHome = url.pathname !== "/Home";
+  const url = useLocation()
+  const showBackHome = url.pathname !== "/Home"
 
   return (
     <div className="min-h-[100svh] overflow-x-hidden">
@@ -16,8 +17,7 @@ export const PortafolioLayout = () => {
           </Link>
         </nav>
       )}
-
       <Outlet />
     </div>
-  );
-};
+  )
+}

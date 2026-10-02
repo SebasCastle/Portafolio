@@ -1,87 +1,159 @@
-"use client"
+import { useState, type FormEvent } from "react"
+import { motion, useReducedMotion } from "framer-motion"
+import { Github, Linkedin, Mail, ArrowRight, Sparkles } from "lucide-react"
+import { SectionHeading } from "@/Components/ui/section-heading"
+import { siteConfig } from "@/data/site"
 
-import { motion } from "framer-motion"
-import { Github, Linkedin, Mail, ArrowUpRight } from "lucide-react"
-
-const contactLinks = [
+const contactCards = [
   {
-    name: "GitHub",
-    description: "Check out my code",
-    href: "https://github.com/SebasCastle",
-    icon: Github,
+    name: "Email",
+    description: siteConfig.email,
+    href: `mailto:${siteConfig.email}`,
+    icon: Mail,
   },
   {
     name: "LinkedIn",
-    description: "Let&apos;s connect",
-    href: "https://www.linkedin.com/in/sebasti%C3%A1ncz/",
+    description: "Let's connect",
+    href: siteConfig.linkedin,
     icon: Linkedin,
   },
   {
-    name: "Email",
-    description: "Get in touch",
-    href: "mailto:sebastiancastillozamudio@hotmail.com",
-    icon: Mail,
+    name: "GitHub",
+    description: "Check out my code",
+    href: siteConfig.github,
+    icon: Github,
   },
 ]
 
 export function ContactSection() {
-  return (
-    <section id="contact" className="py-16 sm:py-24 md:py-32 px-4 sm:px-6">
-      <div className="max-w-4xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-10 sm:mb-16"
-        >
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6">
-            <span className="gradient-text">Get In Touch</span>
-          </h2>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            I&apos;m always open to discussing new projects, creative ideas, or opportunities to be part of your vision.
-          </p>
-        </motion.div>
+  const reduceMotion = useReducedMotion()
+  const [name, setName] = useState("")
+  const [email, setEmail] = useState("")
+  const [message, setMessage] = useState("")
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {contactLinks.map((link, index) => (
-            <motion.a
-              key={link.name}
-              href={link.href}
-              target={link.name !== "Email" ? "_blank" : undefined}
-              rel={link.name !== "Email" ? "noopener noreferrer" : undefined}
-              initial={{ opacity: 0, y: 30 }}
+  const handleSubmit = (event: FormEvent) => {
+    event.preventDefault()
+    const subject = encodeURIComponent(`Portfolio contact from ${name || "someone"}`)
+    const body = encodeURIComponent(
+      `Name: ${name}\nEmail: ${email}\n\n${message}`
+    )
+    window.location.href = `mailto:${siteConfig.email}?subject=${subject}&body=${body}`
+  }
+
+  return (
+    <section id="contact" className="py-16 sm:py-24 md:py-28 px-4 sm:px-6">
+      <div className="max-w-7xl mx-auto">
+        <SectionHeading
+          eyebrow="Contact"
+          title="Let's work together"
+          description="Open to internships, freelance builds, and collaboration on automation or product work."
+        />
+
+        <div className="grid lg:grid-cols-[0.9fr_1.1fr] gap-5 sm:gap-6">
+          <div className="space-y-4">
+            {contactCards.map((card, index) => (
+              <motion.a
+                key={card.name}
+                href={card.href}
+                target={card.name === "Email" ? undefined : "_blank"}
+                rel={card.name === "Email" ? undefined : "noopener noreferrer"}
+                initial={reduceMotion ? false : { opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: reduceMotion ? 0 : index * 0.05 }}
+                className="glow-card rounded-2xl p-5 flex items-center gap-4 hover:border-accent/40 transition-colors min-h-[5.5rem]"
+              >
+                <span className="min-h-12 min-w-12 rounded-xl bg-accent/15 text-accent inline-flex items-center justify-center">
+                  <card.icon className="w-5 h-5" />
+                </span>
+                <span>
+                  <span className="block font-semibold">{card.name}</span>
+                  <span className="block text-sm text-muted-foreground break-all">
+                    {card.description}
+                  </span>
+                </span>
+              </motion.a>
+            ))}
+
+            <motion.div
+              initial={reduceMotion ? false : { opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="group glass rounded-2xl p-6 sm:p-8 text-center hover:border-accent/30 transition-all duration-300 sm:hover:scale-105 min-h-[11rem]"
+              className="glow-card rounded-2xl p-5 flex items-start gap-3 border-accent/30"
             >
-              <div className="inline-flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-secondary mb-4 sm:mb-6 group-hover:bg-accent/20 transition-colors duration-300">
-                <link.icon className="w-6 h-6 sm:w-7 sm:h-7 text-foreground group-hover:text-accent transition-colors duration-300" />
+              <Sparkles className="w-5 h-5 text-accent mt-0.5" aria-hidden />
+              <div>
+                <p className="font-semibold mb-1">Open to new opportunities</p>
+                <p className="text-sm text-muted-foreground">
+                  Currently exploring roles and projects where I can ship useful software and keep
+                  learning fast.
+                </p>
               </div>
-              <h3 className="text-lg sm:text-xl font-semibold mb-2 flex items-center justify-center gap-2">
-                {link.name}
-                <ArrowUpRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              </h3>
-              <p className="text-muted-foreground text-sm sm:text-base">{link.description.replace("&apos;", "'")}</p>
-            </motion.a>
-          ))}
-        </div>
+            </motion.div>
+          </div>
 
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="text-center mt-10 sm:mt-16"
-        >
-          <a
-            href="mailto:sebastiancastillozamudio@hotmail.com"
-            className="inline-flex items-center justify-center min-h-12 px-8 sm:px-10 py-3 sm:py-4 bg-primary text-primary-foreground rounded-full font-medium hover:bg-primary/90 transition-all duration-300 sm:hover:scale-105"
+          <motion.form
+            onSubmit={handleSubmit}
+            initial={reduceMotion ? false : { opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="glow-card rounded-2xl p-5 sm:p-7 space-y-4"
           >
-            Send me a message
-          </a>
-        </motion.div>
+            <div>
+              <label htmlFor="contact-name" className="block text-sm font-medium mb-2">
+                Name
+              </label>
+              <input
+                id="contact-name"
+                name="name"
+                autoComplete="name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="w-full min-h-11 rounded-xl bg-secondary/80 border border-border px-4 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                placeholder="Your name"
+                required
+              />
+            </div>
+            <div>
+              <label htmlFor="contact-email" className="block text-sm font-medium mb-2">
+                Email
+              </label>
+              <input
+                id="contact-email"
+                name="email"
+                type="email"
+                autoComplete="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full min-h-11 rounded-xl bg-secondary/80 border border-border px-4 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                placeholder="you@example.com"
+                required
+              />
+            </div>
+            <div>
+              <label htmlFor="contact-message" className="block text-sm font-medium mb-2">
+                Message
+              </label>
+              <textarea
+                id="contact-message"
+                name="message"
+                rows={5}
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                className="w-full rounded-xl bg-secondary/80 border border-border px-4 py-3 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring resize-y min-h-32"
+                placeholder="Tell me about your project..."
+                required
+              />
+            </div>
+            <button
+              type="submit"
+              className="w-full min-h-12 rounded-full btn-gradient text-white font-semibold inline-flex items-center justify-center gap-2"
+            >
+              Send message
+              <ArrowRight className="w-4 h-4" aria-hidden />
+            </button>
+          </motion.form>
+        </div>
       </div>
     </section>
   )

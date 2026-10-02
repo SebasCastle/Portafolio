@@ -23,26 +23,26 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  /* Apple-inspired dark theme - always dark */
-  --background: oklch(0.08 0 0);
-  --foreground: oklch(0.98 0 0);
-  --card: oklch(0.12 0.005 270);
-  --card-foreground: oklch(0.98 0 0);
-  --popover: oklch(0.1 0 0);
-  --popover-foreground: oklch(0.98 0 0);
-  --primary: oklch(0.98 0 0);
-  --primary-foreground: oklch(0.08 0 0);
-  --secondary: oklch(0.18 0.005 270);
-  --secondary-foreground: oklch(0.98 0 0);
-  --muted: oklch(0.2 0 0);
-  --muted-foreground: oklch(0.65 0 0);
-  --accent: oklch(0.7 0.15 250);
-  --accent-foreground: oklch(0.98 0 0);
+  /* Dark navy / electric blue portfolio theme */
+  --background: oklch(0.12 0.02 260);
+  --foreground: oklch(0.98 0.01 250);
+  --card: oklch(0.16 0.025 260);
+  --card-foreground: oklch(0.98 0.01 250);
+  --popover: oklch(0.14 0.02 260);
+  --popover-foreground: oklch(0.98 0.01 250);
+  --primary: oklch(0.98 0.01 250);
+  --primary-foreground: oklch(0.14 0.02 260);
+  --secondary: oklch(0.22 0.03 260);
+  --secondary-foreground: oklch(0.98 0.01 250);
+  --muted: oklch(0.24 0.02 260);
+  --muted-foreground: oklch(0.72 0.03 250);
+  --accent: oklch(0.68 0.19 255);
+  --accent-foreground: oklch(0.98 0.01 250);
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(0.577 0.245 27.325);
-  --border: oklch(0.22 0 0);
-  --input: oklch(0.18 0 0);
-  --ring: oklch(0.5 0.1 250);
+  --border: oklch(0.28 0.03 260);
+  --input: oklch(0.22 0.03 260);
+  --ring: oklch(0.68 0.19 255);
   --chart-1: oklch(0.7 0.15 250);
   --chart-2: oklch(0.7 0.12 180);
   --chart-3: oklch(0.7 0.12 140);
@@ -60,25 +60,25 @@
 }
 
 .dark {
-  --background: oklch(0.08 0 0);
-  --foreground: oklch(0.98 0 0);
-  --card: oklch(0.12 0.005 270);
-  --card-foreground: oklch(0.98 0 0);
-  --popover: oklch(0.1 0 0);
-  --popover-foreground: oklch(0.98 0 0);
-  --primary: oklch(0.98 0 0);
-  --primary-foreground: oklch(0.08 0 0);
-  --secondary: oklch(0.18 0.005 270);
-  --secondary-foreground: oklch(0.98 0 0);
-  --muted: oklch(0.2 0 0);
-  --muted-foreground: oklch(0.65 0 0);
-  --accent: oklch(0.7 0.15 250);
-  --accent-foreground: oklch(0.98 0 0);
+  --background: oklch(0.12 0.02 260);
+  --foreground: oklch(0.98 0.01 250);
+  --card: oklch(0.16 0.025 260);
+  --card-foreground: oklch(0.98 0.01 250);
+  --popover: oklch(0.14 0.02 260);
+  --popover-foreground: oklch(0.98 0.01 250);
+  --primary: oklch(0.98 0.01 250);
+  --primary-foreground: oklch(0.14 0.02 260);
+  --secondary: oklch(0.22 0.03 260);
+  --secondary-foreground: oklch(0.98 0.01 250);
+  --muted: oklch(0.24 0.02 260);
+  --muted-foreground: oklch(0.72 0.03 250);
+  --accent: oklch(0.68 0.19 255);
+  --accent-foreground: oklch(0.98 0.01 250);
   --destructive: oklch(0.396 0.141 25.723);
   --destructive-foreground: oklch(0.637 0.237 25.331);
-  --border: oklch(0.22 0 0);
-  --input: oklch(0.18 0 0);
-  --ring: oklch(0.5 0.1 250);
+  --border: oklch(0.28 0.03 260);
+  --input: oklch(0.22 0.03 260);
+  --ring: oklch(0.68 0.19 255);
   --chart-1: oklch(0.7 0.15 250);
   --chart-2: oklch(0.7 0.12 180);
   --chart-3: oklch(0.7 0.12 140);
@@ -146,6 +146,10 @@
   body {
     @apply bg-background text-foreground font-sans antialiased;
     overflow-x: hidden;
+    background-image:
+      radial-gradient(ellipse 80% 50% at 20% -10%, rgba(59, 130, 246, 0.18), transparent),
+      radial-gradient(ellipse 60% 40% at 90% 10%, rgba(139, 92, 246, 0.12), transparent);
+    background-attachment: fixed;
   }
   img {
     max-width: 100%;
@@ -215,5 +219,35 @@
 
 /* Glow effect */
 .glow {
-  box-shadow: 0 0 40px rgba(120, 119, 198, 0.15);
+  box-shadow: 0 0 40px rgba(59, 130, 246, 0.18);
+}
+
+.glow-card {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02));
+  border: 1px solid rgba(148, 163, 184, 0.16);
+  box-shadow:
+    0 0 0 1px rgba(59, 130, 246, 0.04),
+    0 10px 40px rgba(2, 6, 23, 0.35);
+}
+
+.glow-card:hover {
+  border-color: rgba(96, 165, 250, 0.35);
+  box-shadow:
+    0 0 0 1px rgba(59, 130, 246, 0.08),
+    0 12px 48px rgba(37, 99, 235, 0.12);
+}
+
+.btn-gradient {
+  background: linear-gradient(135deg, #3b82f6 0%, #6366f1 45%, #8b5cf6 100%);
+}
+
+.btn-gradient:hover {
+  filter: brightness(1.06);
+}
+
+.text-gradient-brand {
+  background: linear-gradient(135deg, #60a5fa 0%, #818cf8 50%, #c084fc 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }

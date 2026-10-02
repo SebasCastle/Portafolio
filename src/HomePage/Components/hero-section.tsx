@@ -1,7 +1,6 @@
-"use client"
-
 import { motion, useReducedMotion } from "framer-motion"
-import { Github, Linkedin, Mail, ArrowDown } from "lucide-react"
+import { ArrowRight, Download, Github, Linkedin, Mail } from "lucide-react"
+import { siteConfig } from "@/data/site"
 
 export function HeroSection() {
   const reduceMotion = useReducedMotion()
@@ -9,170 +8,156 @@ export function HeroSection() {
   return (
     <section
       id="top"
-      className="relative min-h-[100svh] flex items-center justify-center overflow-hidden pt-20 pb-16 sm:pt-24 sm:pb-20"
+      className="relative overflow-hidden pt-28 sm:pt-32 pb-16 sm:pb-24"
+      aria-labelledby="hero-heading"
     >
-      <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden>
-        <motion.div
-          className="absolute top-1/4 left-1/4 w-64 h-64 sm:w-96 sm:h-96 bg-accent/10 rounded-full blur-3xl"
-          animate={
-            reduceMotion
-              ? undefined
-              : {
-                  x: [0, 50, 0],
-                  y: [0, 30, 0],
-                  scale: [1, 1.1, 1],
-                }
-          }
-          transition={{
-            duration: 8,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-        />
-        <motion.div
-          className="absolute bottom-1/4 right-1/4 w-56 h-56 sm:w-80 sm:h-80 bg-accent/5 rounded-full blur-3xl hidden sm:block"
-          animate={
-            reduceMotion
-              ? undefined
-              : {
-                  x: [0, -40, 0],
-                  y: [0, -30, 0],
-                  scale: [1, 1.2, 1],
-                }
-          }
-          transition={{
-            duration: 10,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: 1,
+      <div className="absolute inset-0 pointer-events-none" aria-hidden>
+        <div className="absolute -top-24 left-1/4 h-72 w-72 rounded-full bg-accent/20 blur-3xl" />
+        <div className="absolute bottom-0 right-0 h-80 w-80 rounded-full bg-violet-500/15 blur-3xl" />
+        <div
+          className="absolute inset-0 opacity-[0.035]"
+          style={{
+            backgroundImage:
+              "linear-gradient(rgba(255,255,255,.12) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.12) 1px, transparent 1px)",
+            backgroundSize: "56px 56px",
           }}
         />
       </div>
 
-      <div
-        className="absolute inset-0 opacity-[0.02] pointer-events-none"
-        aria-hidden
-        style={{
-          backgroundImage: `linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)`,
-          backgroundSize: "60px 60px",
-        }}
-      />
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 grid lg:grid-cols-[1.1fr_0.9fr] gap-10 lg:gap-14 items-center">
+        <div>
+          <motion.p
+            initial={reduceMotion ? false : { opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.45 }}
+            className="text-sm text-muted-foreground tracking-[0.18em] uppercase mb-4"
+          >
+            {siteConfig.role}
+          </motion.p>
 
-      <div className="relative z-10 text-center px-4 sm:px-6 max-w-5xl mx-auto w-full">
-        <motion.p
-          className="text-muted-foreground text-xs sm:text-sm tracking-[0.2em] sm:tracking-[0.3em] uppercase mb-4 sm:mb-6"
-          initial={reduceMotion ? false : { opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-        >
-          Software Engineering Student
-        </motion.p>
+          <motion.h1
+            id="hero-heading"
+            initial={reduceMotion ? false : { opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.55, delay: 0.05 }}
+            className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.08] mb-6"
+          >
+            I build web apps,{" "}
+            <span className="text-gradient-brand">automate processes</span> and{" "}
+            <span className="text-gradient-brand">turn data into insights.</span>
+          </motion.h1>
 
-        <motion.h1
-          className="text-4xl xs:text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight mb-5 sm:mb-8 break-words"
-          initial={reduceMotion ? false : { opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.05 }}
-        >
-          <span className="gradient-text">Sebastián CZ</span>
-        </motion.h1>
+          <motion.p
+            initial={reduceMotion ? false : { opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.55, delay: 0.1 }}
+            className="text-base sm:text-lg text-muted-foreground max-w-xl leading-relaxed mb-8"
+          >
+            {siteConfig.description} Hi, I&apos;m {siteConfig.name} — crafting practical digital
+            solutions with a focus on clarity, speed, and reliability.
+          </motion.p>
 
-        <motion.p
-          className="text-lg sm:text-xl md:text-2xl text-muted-foreground font-light mb-4 sm:mb-6 max-w-3xl mx-auto leading-relaxed"
-          initial={reduceMotion ? false : { opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.1 }}
-        >
-          Full Stack Developer Jr
-        </motion.p>
+          <motion.div
+            initial={reduceMotion ? false : { opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.55, delay: 0.15 }}
+            className="flex flex-col sm:flex-row flex-wrap gap-3 mb-8"
+          >
+            <a
+              href="#projects"
+              className="min-h-12 px-6 inline-flex items-center justify-center gap-2 rounded-full bg-accent text-accent-foreground font-semibold hover:bg-accent/90 transition-colors"
+            >
+              View my work
+              <ArrowRight className="w-4 h-4" aria-hidden />
+            </a>
+            <a
+              href={siteConfig.cvUrl}
+              className="min-h-12 px-6 inline-flex items-center justify-center gap-2 rounded-full glass font-semibold hover:bg-white/10 transition-colors"
+            >
+              <Download className="w-4 h-4" aria-hidden />
+              Download CV
+            </a>
+          </motion.div>
 
-        <motion.p
-          className="text-sm sm:text-base md:text-lg text-muted-foreground/80 max-w-2xl mx-auto mb-8 sm:mb-12 leading-relaxed px-1"
-          initial={reduceMotion ? false : { opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.15 }}
-        >
-          Focused on building automation tools, dashboards, web applications, and scalable backend systems.
-        </motion.p>
+          <motion.div
+            initial={reduceMotion ? false : { opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.55, delay: 0.22 }}
+            className="flex items-center gap-3"
+          >
+            <a
+              href={siteConfig.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="GitHub"
+              className="min-h-11 min-w-11 inline-flex items-center justify-center rounded-full glass hover:bg-white/10"
+            >
+              <Github className="w-5 h-5" />
+            </a>
+            <a
+              href={siteConfig.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="LinkedIn"
+              className="min-h-11 min-w-11 inline-flex items-center justify-center rounded-full glass hover:bg-white/10"
+            >
+              <Linkedin className="w-5 h-5" />
+            </a>
+            <a
+              href={`mailto:${siteConfig.email}`}
+              aria-label="Email"
+              className="min-h-11 min-w-11 inline-flex items-center justify-center rounded-full glass hover:bg-white/10"
+            >
+              <Mail className="w-5 h-5" />
+            </a>
+          </motion.div>
+        </div>
 
         <motion.div
-          className="flex flex-col sm:flex-row flex-wrap justify-center gap-3 sm:gap-4"
-          initial={reduceMotion ? false : { opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.2 }}
+          initial={reduceMotion ? false : { opacity: 0, scale: 0.96 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.6, delay: 0.12 }}
+          className="relative mx-auto w-full max-w-md lg:max-w-none"
+          aria-hidden
         >
-          <a
-            href="#projects"
-            className="min-h-12 px-6 sm:px-8 py-3 sm:py-4 bg-primary text-primary-foreground rounded-full font-medium hover:bg-primary/90 transition-all duration-300 sm:hover:scale-105 inline-flex items-center justify-center"
-          >
-            View Projects
-          </a>
-          <a
-            href="https://github.com/SebasCastle"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="min-h-12 px-6 sm:px-8 py-3 sm:py-4 glass rounded-full font-medium hover:bg-white/10 transition-all duration-300 flex items-center justify-center gap-2 sm:hover:scale-105"
-          >
-            <Github className="w-5 h-5" />
-            GitHub
-          </a>
-          <a
-            href="#contact"
-            className="min-h-12 px-6 sm:px-8 py-3 sm:py-4 glass rounded-full font-medium hover:bg-white/10 transition-all duration-300 flex items-center justify-center gap-2 sm:hover:scale-105"
-          >
-            <Mail className="w-5 h-5" />
-            Contact
-          </a>
-        </motion.div>
+          <div className="glow-card rounded-3xl p-4 sm:p-5 bg-[linear-gradient(180deg,rgba(30,41,59,.9),rgba(15,23,42,.95))]">
+            <div className="rounded-2xl border border-white/10 bg-[#0b1220] overflow-hidden shadow-2xl">
+              <div className="flex items-center gap-2 px-4 py-3 border-b border-white/10">
+                <span className="h-2.5 w-2.5 rounded-full bg-red-400/80" />
+                <span className="h-2.5 w-2.5 rounded-full bg-amber-400/80" />
+                <span className="h-2.5 w-2.5 rounded-full bg-emerald-400/80" />
+                <span className="ml-2 text-xs text-muted-foreground">portfolio.tsx</span>
+              </div>
+              <pre className="p-4 sm:p-5 text-[11px] sm:text-xs leading-relaxed text-sky-100/90 font-mono overflow-hidden">
+{`const engineer = {
+  name: "${siteConfig.shortName}",
+  stack: ["React", "NestJS", "SQL"],
+  focus: ["automation", "dashboards"],
+  ship: () => "reliable UX",
+}`}
+              </pre>
+            </div>
+          </div>
 
-        <motion.div
-          className="flex justify-center gap-4 sm:gap-6 mt-10 sm:mt-16"
-          initial={reduceMotion ? false : { opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.7, delay: 0.35 }}
-        >
-          <a
-            href="https://github.com/SebasCastle"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="GitHub"
-            className="text-muted-foreground hover:text-foreground transition-colors duration-300 min-h-11 min-w-11 inline-flex items-center justify-center"
+          <motion.div
+            className="absolute -right-2 sm:right-2 -bottom-4 sm:bottom-2 w-36 sm:w-44 rounded-2xl p-4 btn-gradient shadow-xl shadow-violet-500/20"
+            animate={
+              reduceMotion
+                ? undefined
+                : { y: [0, -8, 0] }
+            }
+            transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
           >
-            <Github className="w-6 h-6" />
-          </a>
-          <a
-            href="https://www.linkedin.com/in/sebasti%C3%A1ncz/"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="LinkedIn"
-            className="text-muted-foreground hover:text-foreground transition-colors duration-300 min-h-11 min-w-11 inline-flex items-center justify-center"
-          >
-            <Linkedin className="w-6 h-6" />
-          </a>
-          <a
-            href="mailto:sebastiancastillozamudio@hotmail.com"
-            aria-label="Email"
-            className="text-muted-foreground hover:text-foreground transition-colors duration-300 min-h-11 min-w-11 inline-flex items-center justify-center"
-          >
-            <Mail className="w-6 h-6" />
-          </a>
+            <p className="text-[10px] uppercase tracking-[0.2em] text-white/70 mb-2">Loop</p>
+            <ul className="space-y-1 text-sm font-semibold text-white">
+              <li>Idea</li>
+              <li>Code</li>
+              <li>Automate</li>
+              <li>Improve</li>
+            </ul>
+          </motion.div>
         </motion.div>
       </div>
-
-      <motion.div
-        className="absolute bottom-6 sm:bottom-10 left-1/2 -translate-x-1/2 hidden sm:block"
-        initial={reduceMotion ? false : { opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.8 }}
-        aria-hidden
-      >
-        <motion.div
-          animate={reduceMotion ? undefined : { y: [0, 10, 0] }}
-          transition={{ duration: 2, repeat: Infinity }}
-        >
-          <ArrowDown className="w-6 h-6 text-muted-foreground" />
-        </motion.div>
-      </motion.div>
     </section>
   )
 }
