@@ -102,7 +102,7 @@ const linkClassName =
 
 function ProjectLinks({ project }: { project: Project }) {
   return (
-    <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 max-w-[min(100%,22rem)] px-3">
+    <div className="flex flex-col xs:flex-row flex-wrap items-stretch sm:items-center justify-center gap-2 sm:gap-3 w-[min(100%,18rem)] sm:w-[min(100%,22rem)] px-3">
       <a
         href={project.url}
         target="_blank"
