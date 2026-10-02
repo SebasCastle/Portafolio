@@ -9,14 +9,16 @@ export const siteConfig = {
   email: "sebastiancastillozamudio@hotmail.com",
   github: "https://github.com/SebasCastle",
   linkedin: "https://www.linkedin.com/in/sebasti%C3%A1ncz/",
-  cvUrl: "/cv.html",
-  locale: "en",
+  cvUrls: {
+    en: "/cv/Sebastian_Castillo_Zamudio_CV_EN.pdf",
+    es: "/cv/Sebastian_Castillo_Zamudio_CV_ES.pdf",
+  },
   themeColor: "#0b1220",
 } as const
 
-export const heroStats = [
-  { value: "5+", label: "Projects completed" },
-  { value: "10+", label: "Technologies" },
-  { value: "2+", label: "Years of experience" },
-  { value: "100%", label: "Passion for learning" },
-] as const
+export const heroStatValues = [
+  { value: "5+", key: "projects" as const },
+  { value: "10+", key: "technologies" as const },
+  { value: "2+", key: "experience" as const },
+  { value: "100%", key: "passion" as const },
+]

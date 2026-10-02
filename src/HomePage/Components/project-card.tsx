@@ -3,6 +3,7 @@ import { motion, useReducedMotion } from "framer-motion"
 import { ExternalLink, Github, ArrowUpRight } from "lucide-react"
 import { Link } from "react-router"
 import { isExternalHref, type Project } from "@/data/projects"
+import { interpolate, useI18n } from "@/i18n"
 import { cn } from "@/lib/utils"
 
 const actionClass =
@@ -21,8 +22,11 @@ export function ProjectCard({ project, index = 0, compact = false }: ProjectCard
   const cardRef = useRef<HTMLElement>(null)
   const panelId = useId()
   const reduceMotion = useReducedMotion()
+  const { t } = useI18n()
   const showLinks = pinned || hovered
   const primaryDemo = project.demos[0]
+  const categoryLabel =
+    t.projects.categories[project.category] ?? project.category.replace("-", " ")
 
   useEffect(() => {
     if (!pinned) return
@@ -92,9 +96,11 @@ export function ProjectCard({ project, index = 0, compact = false }: ProjectCard
             aria-controls={panelId}
             onClick={() => setPinned(true)}
           >
-            <span className="sr-only">Show links for {project.title}</span>
+            <span className="sr-only">
+              {interpolate(t.projects.showLinks, { title: project.title })}
+            </span>
             <span className="absolute bottom-3 left-1/2 -translate-x-1/2 glass px-4 py-2 rounded-full text-xs font-medium sm:hidden pointer-events-none">
-              Tap for links
+              {t.projects.tapForLinks}
             </span>
           </button>
 
@@ -119,11 +125,13 @@ export function ProjectCard({ project, index = 0, compact = false }: ProjectCard
                   onClick={(e) => e.stopPropagation()}
                 >
                   <Github className="w-4 h-4" aria-hidden />
-                  Code
+                  {t.projects.code}
                 </a>
               )}
               {project.demos.length === 0 ? (
-                <span className={cn(actionClass, "glass text-muted-foreground")}>Just Code</span>
+                <span className={cn(actionClass, "glass text-muted-foreground")}>
+                  {t.projects.justCode}
+                </span>
               ) : (
                 project.demos.map((demo) =>
                   isExternalHref(demo.href) ? (
@@ -158,7 +166,7 @@ export function ProjectCard({ project, index = 0, compact = false }: ProjectCard
         <div className="p-5 sm:p-6 flex flex-col flex-1">
           <div className="flex items-center justify-between gap-3 mb-3">
             <span className="text-xs font-semibold uppercase tracking-wider text-accent">
-              {project.category.replace("-", " ")}
+              {categoryLabel}
             </span>
             <Link
               to={`/projects/${project.slug}`}
@@ -191,14 +199,14 @@ export function ProjectCard({ project, index = 0, compact = false }: ProjectCard
                   rel="noopener noreferrer"
                   className={cn(actionClass, "bg-accent text-accent-foreground hover:bg-accent/90")}
                 >
-                  Live Demo
+                  {t.projects.liveDemo}
                 </a>
               ) : (
                 <Link
                   to={primaryDemo.href}
                   className={cn(actionClass, "bg-accent text-accent-foreground hover:bg-accent/90")}
                 >
-                  Live Demo
+                  {t.projects.liveDemo}
                 </Link>
               ))}
             {project.codeUrl && (
@@ -208,7 +216,7 @@ export function ProjectCard({ project, index = 0, compact = false }: ProjectCard
                 rel="noopener noreferrer"
                 className={cn(actionClass, "glass hover:bg-white/10")}
               >
-                Code
+                {t.projects.code}
               </a>
             )}
           </div>

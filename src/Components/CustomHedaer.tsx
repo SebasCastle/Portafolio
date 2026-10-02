@@ -2,16 +2,10 @@ import { useEffect, useState } from "react"
 import { Link, useLocation } from "react-router"
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion"
 import { Menu, X, ArrowRight } from "lucide-react"
+import { LanguageSwitch } from "@/Components/LanguageSwitch"
 import { siteConfig } from "@/data/site"
+import { useI18n } from "@/i18n"
 import { cn } from "@/lib/utils"
-
-const navItems = [
-  { label: "Home", href: "/Home" },
-  { label: "Projects", href: "/projects" },
-  { label: "Skills", href: "/Home#skills" },
-  { label: "Journey", href: "/Home#journey" },
-  { label: "Contact", href: "/Home#contact" },
-]
 
 function isHashLink(href: string) {
   return href.includes("#")
@@ -22,6 +16,15 @@ export function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const reduceMotion = useReducedMotion()
   const location = useLocation()
+  const { t } = useI18n()
+
+  const navItems = [
+    { label: t.nav.home, href: "/Home" },
+    { label: t.nav.projects, href: "/projects" },
+    { label: t.nav.skills, href: "/Home#skills" },
+    { label: t.nav.journey, href: "/Home#journey" },
+    { label: t.nav.contact, href: "/Home#contact" },
+  ]
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 24)
@@ -50,7 +53,7 @@ export function Navbar() {
       >
         <nav
           className="max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between gap-4"
-          aria-label="Primary"
+          aria-label={t.nav.primary}
         >
           <Link
             to="/Home"
@@ -75,11 +78,11 @@ export function Navbar() {
                   : "text-muted-foreground hover:text-foreground hover:bg-white/5"
               )
               return isHashLink(item.href) ? (
-                <a key={item.label} href={item.href} className={className}>
+                <a key={item.href} href={item.href} className={className}>
                   {item.label}
                 </a>
               ) : (
-                <Link key={item.label} to={item.href} className={className}>
+                <Link key={item.href} to={item.href} className={className}>
                   {item.label}
                 </Link>
               )
@@ -87,18 +90,19 @@ export function Navbar() {
           </div>
 
           <div className="flex items-center gap-2">
+            <LanguageSwitch className="hidden sm:inline-flex" />
             <a
               href="/Home#contact"
               className="hidden sm:inline-flex items-center gap-2 min-h-11 px-4 rounded-full text-sm font-semibold text-white btn-gradient"
             >
-              Contact me
+              {t.nav.contactMe}
               <ArrowRight className="w-4 h-4" aria-hidden />
             </a>
             <button
               type="button"
               className="lg:hidden min-h-11 min-w-11 inline-flex items-center justify-center rounded-xl glass"
               aria-expanded={isMobileMenuOpen}
-              aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
+              aria-label={isMobileMenuOpen ? t.nav.closeMenu : t.nav.openMenu}
               onClick={() => setIsMobileMenuOpen((v) => !v)}
             >
               {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -116,9 +120,12 @@ export function Navbar() {
             className="fixed inset-0 z-40 bg-background/95 backdrop-blur-xl lg:hidden pt-24"
           >
             <div className="flex flex-col gap-2 px-6">
+              <div className="mb-2 px-2">
+                <LanguageSwitch />
+              </div>
               {navItems.map((item, index) => (
                 <motion.div
-                  key={item.label}
+                  key={item.href}
                   initial={reduceMotion ? false : { opacity: 0, y: 12 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.04 }}
@@ -147,7 +154,7 @@ export function Navbar() {
                 className="mt-4 inline-flex items-center justify-center gap-2 min-h-12 rounded-full font-semibold text-white btn-gradient"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
-                Contact me
+                {t.nav.contactMe}
                 <ArrowRight className="w-4 h-4" />
               </a>
             </div>

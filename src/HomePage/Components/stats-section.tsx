@@ -1,13 +1,20 @@
 import { motion, useReducedMotion } from "framer-motion"
-import { heroStats } from "@/data/site"
+import { heroStatValues } from "@/data/site"
+import { useI18n } from "@/i18n"
 
 export function StatsSection() {
   const reduceMotion = useReducedMotion()
+  const { t } = useI18n()
+
+  const stats = heroStatValues.map((stat) => ({
+    value: stat.value,
+    label: t.stats[stat.key],
+  }))
 
   return (
-    <section aria-label="Highlights" className="px-4 sm:px-6 pb-8 sm:pb-12">
+    <section aria-label={t.stats.ariaLabel} className="px-4 sm:px-6 pb-8 sm:pb-12">
       <div className="max-w-7xl mx-auto grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-        {heroStats.map((stat, index) => (
+        {stats.map((stat, index) => (
           <motion.div
             key={stat.label}
             initial={reduceMotion ? false : { opacity: 0, y: 16 }}

@@ -11,6 +11,7 @@ import {
   projectCategories,
   techFilters,
 } from "@/data/projects"
+import { useI18n } from "@/i18n"
 import { cn } from "@/lib/utils"
 
 const PAGE_SIZE = 6
@@ -20,6 +21,7 @@ export function ProjectsPage() {
   const [category, setCategory] = useState("all")
   const [techId, setTechId] = useState("all")
   const [visible, setVisible] = useState(PAGE_SIZE)
+  const { t } = useI18n()
 
   const filtered = useMemo(
     () => filterProjects({ query, category, techId }),
@@ -32,21 +34,21 @@ export function ProjectsPage() {
   return (
     <>
       <DocumentMeta
-        title="All Projects"
-        description="Browse Sebastián's projects across full-stack, frontend, backend, automation, and WordPress."
+        title={t.meta.projectsTitle}
+        description={t.meta.projectsDescription}
         path="/projects"
       />
       <Navbar />
       <main className="pt-28 sm:pt-32 pb-16 sm:pb-24 px-4 sm:px-6">
         <div className="max-w-7xl mx-auto">
           <SectionHeading
-            title="All Projects"
-            description="Search and filter the full archive. Architecture supports growing to 20+ projects."
+            title={t.projects.allTitle}
+            description={t.projects.allDescription}
           />
 
           <div className="mb-8 space-y-4">
             <label className="relative block max-w-xl">
-              <span className="sr-only">Search projects</span>
+              <span className="sr-only">{t.projects.searchLabel}</span>
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
               <input
                 value={query}
@@ -54,12 +56,12 @@ export function ProjectsPage() {
                   setQuery(e.target.value)
                   setVisible(PAGE_SIZE)
                 }}
-                placeholder="Search projects..."
+                placeholder={t.projects.searchPlaceholder}
                 className="w-full min-h-12 rounded-full bg-secondary/80 border border-border pl-11 pr-4 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring"
               />
             </label>
 
-            <div className="flex flex-wrap gap-2" role="group" aria-label="Category filters">
+            <div className="flex flex-wrap gap-2" role="group" aria-label={t.projects.categoryFilters}>
               {projectCategories.map((item) => (
                 <button
                   key={item.id}
@@ -75,12 +77,12 @@ export function ProjectsPage() {
                       : "glass text-muted-foreground hover:text-foreground"
                   )}
                 >
-                  {item.label}
+                  {t.projects.categories[item.id] ?? item.label}
                 </button>
               ))}
             </div>
 
-            <div className="flex flex-wrap gap-2" role="group" aria-label="Technology filters">
+            <div className="flex flex-wrap gap-2" role="group" aria-label={t.projects.techFilters}>
               {techFilters.map((item) => (
                 <button
                   key={item.id}
@@ -96,19 +98,20 @@ export function ProjectsPage() {
                       : "bg-secondary text-muted-foreground hover:text-foreground"
                   )}
                 >
-                  {item.label}
+                  {item.id === "all" ? t.projects.categories.all : item.label}
                 </button>
               ))}
             </div>
           </div>
 
           <p className="text-sm text-muted-foreground mb-6">
-            Showing {shown.length} of {filtered.length} projects
+            {t.projects.showing} {shown.length} {t.projects.of} {filtered.length}{" "}
+            {t.projects.projectsWord}
           </p>
 
           {shown.length === 0 ? (
             <div className="glow-card rounded-2xl p-10 text-center text-muted-foreground">
-              No projects match these filters.
+              {t.projects.empty}
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
@@ -125,14 +128,14 @@ export function ProjectsPage() {
                 onClick={() => setVisible((v) => v + PAGE_SIZE)}
                 className="min-h-12 px-6 rounded-full glass font-semibold hover:bg-white/10"
               >
-                Load more
+                {t.projects.loadMore}
               </button>
             </div>
           )}
 
           <div className="mt-12 text-center">
             <Link to="/Home" className="text-sm text-muted-foreground hover:text-foreground">
-              ← Back to home
+              {t.projects.backHome}
             </Link>
           </div>
         </div>

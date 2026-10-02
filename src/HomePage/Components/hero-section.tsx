@@ -1,9 +1,11 @@
 import { motion, useReducedMotion } from "framer-motion"
 import { ArrowRight, Download, Github, Linkedin, Mail } from "lucide-react"
 import { siteConfig } from "@/data/site"
+import { interpolate, useI18n } from "@/i18n"
 
 export function HeroSection() {
   const reduceMotion = useReducedMotion()
+  const { t, cvUrl } = useI18n()
 
   return (
     <section
@@ -32,7 +34,7 @@ export function HeroSection() {
             transition={{ duration: 0.45 }}
             className="text-sm text-muted-foreground tracking-[0.18em] uppercase mb-4"
           >
-            {siteConfig.role}
+            {t.hero.role}
           </motion.p>
 
           <motion.h1
@@ -42,9 +44,10 @@ export function HeroSection() {
             transition={{ duration: 0.55, delay: 0.05 }}
             className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.08] mb-6"
           >
-            I build web apps,{" "}
-            <span className="text-gradient-brand">automate processes</span> and{" "}
-            <span className="text-gradient-brand">turn data into insights.</span>
+            {t.hero.headlineBefore}{" "}
+            <span className="text-gradient-brand">{t.hero.headlineAutomate}</span>{" "}
+            {t.hero.headlineAnd}{" "}
+            <span className="text-gradient-brand">{t.hero.headlineInsights}</span>
           </motion.h1>
 
           <motion.p
@@ -53,8 +56,8 @@ export function HeroSection() {
             transition={{ duration: 0.55, delay: 0.1 }}
             className="text-base sm:text-lg text-muted-foreground max-w-xl leading-relaxed mb-8"
           >
-            {siteConfig.description} Hi, I&apos;m {siteConfig.name} — crafting practical digital
-            solutions with a focus on clarity, speed, and reliability.
+            {t.hero.description}{" "}
+            {interpolate(t.hero.greeting, { name: siteConfig.name })}
           </motion.p>
 
           <motion.div
@@ -67,15 +70,16 @@ export function HeroSection() {
               href="#projects"
               className="min-h-12 px-6 inline-flex items-center justify-center gap-2 rounded-full bg-accent text-accent-foreground font-semibold hover:bg-accent/90 transition-colors"
             >
-              View my work
+              {t.hero.viewWork}
               <ArrowRight className="w-4 h-4" aria-hidden />
             </a>
             <a
-              href={siteConfig.cvUrl}
+              href={cvUrl}
+              download
               className="min-h-12 px-6 inline-flex items-center justify-center gap-2 rounded-full glass font-semibold hover:bg-white/10 transition-colors"
             >
               <Download className="w-4 h-4" aria-hidden />
-              Download CV
+              {t.hero.downloadCv}
             </a>
           </motion.div>
 
@@ -148,12 +152,11 @@ export function HeroSection() {
             }
             transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
           >
-            <p className="text-[10px] uppercase tracking-[0.2em] text-white/70 mb-2">Loop</p>
+            <p className="text-[10px] uppercase tracking-[0.2em] text-white/70 mb-2">{t.hero.loop}</p>
             <ul className="space-y-1 text-sm font-semibold text-white">
-              <li>Idea</li>
-              <li>Code</li>
-              <li>Automate</li>
-              <li>Improve</li>
+              {t.hero.loopItems.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
             </ul>
           </motion.div>
         </motion.div>

@@ -3,39 +3,48 @@ import { motion, useReducedMotion } from "framer-motion"
 import { Github, Linkedin, Mail, ArrowRight, Sparkles } from "lucide-react"
 import { SectionHeading } from "@/Components/ui/section-heading"
 import { siteConfig } from "@/data/site"
-
-const contactCards = [
-  {
-    name: "Email",
-    description: siteConfig.email,
-    href: `mailto:${siteConfig.email}`,
-    icon: Mail,
-  },
-  {
-    name: "LinkedIn",
-    description: "Let's connect",
-    href: siteConfig.linkedin,
-    icon: Linkedin,
-  },
-  {
-    name: "GitHub",
-    description: "Check out my code",
-    href: siteConfig.github,
-    icon: Github,
-  },
-]
+import { interpolate, useI18n } from "@/i18n"
 
 export function ContactSection() {
   const reduceMotion = useReducedMotion()
+  const { t } = useI18n()
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
   const [message, setMessage] = useState("")
 
+  const contactCards = [
+    {
+      name: t.contact.email,
+      description: siteConfig.email,
+      href: `mailto:${siteConfig.email}`,
+      icon: Mail,
+      external: false,
+    },
+    {
+      name: t.contact.linkedin,
+      description: t.contact.linkedinDesc,
+      href: siteConfig.linkedin,
+      icon: Linkedin,
+      external: true,
+    },
+    {
+      name: t.contact.github,
+      description: t.contact.githubDesc,
+      href: siteConfig.github,
+      icon: Github,
+      external: true,
+    },
+  ]
+
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault()
-    const subject = encodeURIComponent(`Portfolio contact from ${name || "someone"}`)
+    const subject = encodeURIComponent(
+      interpolate(t.contact.mailSubject, {
+        name: name || t.contact.mailSomeone,
+      })
+    )
     const body = encodeURIComponent(
-      `Name: ${name}\nEmail: ${email}\n\n${message}`
+      `${t.contact.mailName}: ${name}\n${t.contact.mailEmail}: ${email}\n\n${message}`
     )
     window.location.href = `mailto:${siteConfig.email}?subject=${subject}&body=${body}`
   }
@@ -44,9 +53,9 @@ export function ContactSection() {
     <section id="contact" className="py-16 sm:py-24 md:py-28 px-4 sm:px-6">
       <div className="max-w-7xl mx-auto">
         <SectionHeading
-          eyebrow="Contact"
-          title="Let's work together"
-          description="Open to internships, freelance builds, and collaboration on automation or product work."
+          eyebrow={t.contact.eyebrow}
+          title={t.contact.title}
+          description={t.contact.description}
         />
 
         <div className="grid lg:grid-cols-[0.9fr_1.1fr] gap-5 sm:gap-6">
@@ -55,8 +64,8 @@ export function ContactSection() {
               <motion.a
                 key={card.name}
                 href={card.href}
-                target={card.name === "Email" ? undefined : "_blank"}
-                rel={card.name === "Email" ? undefined : "noopener noreferrer"}
+                target={card.external ? "_blank" : undefined}
+                rel={card.external ? "noopener noreferrer" : undefined}
                 initial={reduceMotion ? false : { opacity: 0, y: 16 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -83,11 +92,8 @@ export function ContactSection() {
             >
               <Sparkles className="w-5 h-5 text-accent mt-0.5" aria-hidden />
               <div>
-                <p className="font-semibold mb-1">Open to new opportunities</p>
-                <p className="text-sm text-muted-foreground">
-                  Currently exploring roles and projects where I can ship useful software and keep
-                  learning fast.
-                </p>
+                <p className="font-semibold mb-1">{t.contact.openTitle}</p>
+                <p className="text-sm text-muted-foreground">{t.contact.openBody}</p>
               </div>
             </motion.div>
           </div>
@@ -101,7 +107,7 @@ export function ContactSection() {
           >
             <div>
               <label htmlFor="contact-name" className="block text-sm font-medium mb-2">
-                Name
+                {t.contact.name}
               </label>
               <input
                 id="contact-name"
@@ -110,13 +116,13 @@ export function ContactSection() {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 className="w-full min-h-11 rounded-xl bg-secondary/80 border border-border px-4 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                placeholder="Your name"
+                placeholder={t.contact.namePlaceholder}
                 required
               />
             </div>
             <div>
               <label htmlFor="contact-email" className="block text-sm font-medium mb-2">
-                Email
+                {t.contact.emailLabel}
               </label>
               <input
                 id="contact-email"
@@ -126,13 +132,13 @@ export function ContactSection() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="w-full min-h-11 rounded-xl bg-secondary/80 border border-border px-4 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                placeholder="you@example.com"
+                placeholder={t.contact.emailPlaceholder}
                 required
               />
             </div>
             <div>
               <label htmlFor="contact-message" className="block text-sm font-medium mb-2">
-                Message
+                {t.contact.message}
               </label>
               <textarea
                 id="contact-message"
@@ -141,7 +147,7 @@ export function ContactSection() {
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
                 className="w-full rounded-xl bg-secondary/80 border border-border px-4 py-3 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring resize-y min-h-32"
-                placeholder="Tell me about your project..."
+                placeholder={t.contact.messagePlaceholder}
                 required
               />
             </div>
@@ -149,7 +155,7 @@ export function ContactSection() {
               type="submit"
               className="w-full min-h-12 rounded-full btn-gradient text-white font-semibold inline-flex items-center justify-center gap-2"
             >
-              Send message
+              {t.contact.send}
               <ArrowRight className="w-4 h-4" aria-hidden />
             </button>
           </motion.form>

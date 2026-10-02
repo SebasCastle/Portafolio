@@ -4,16 +4,20 @@ import { DocumentMeta } from "@/Components/seo/DocumentMeta"
 import { Navbar } from "@/Components/CustomHedaer"
 import { Footer } from "@/Components/CustomFooder"
 import { getProjectBySlug, isExternalHref } from "@/data/projects"
+import { interpolate, useI18n } from "@/i18n"
 
 export function ProjectDetailPage() {
   const { slug } = useParams()
   const project = slug ? getProjectBySlug(slug) : undefined
+  const { t } = useI18n()
 
   if (!project) {
     return <Navigate to="/projects" replace />
   }
 
   const primaryDemo = project.demos[0]
+  const categoryLabel =
+    t.projects.categories[project.category] ?? project.category.replace("-", " ")
 
   return (
     <>
@@ -31,13 +35,13 @@ export function ProjectDetailPage() {
             className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground min-h-11"
           >
             <ArrowLeft className="w-4 h-4" />
-            Back to projects
+            {t.projects.backProjects}
           </Link>
 
           <header className="mt-6 mb-8 sm:mb-10 flex flex-col lg:flex-row lg:items-end justify-between gap-6">
             <div className="max-w-2xl">
               <p className="text-accent text-xs font-semibold uppercase tracking-[0.18em] mb-3">
-                {project.category.replace("-", " ")}
+                {categoryLabel}
               </p>
               <h1 className="text-3xl sm:text-5xl font-bold tracking-tight mb-4">{project.title}</h1>
               <p className="text-muted-foreground text-base sm:text-lg leading-relaxed">
@@ -53,7 +57,7 @@ export function ProjectDetailPage() {
                     rel="noopener noreferrer"
                     className="min-h-12 px-5 rounded-full bg-accent text-accent-foreground font-semibold inline-flex items-center gap-2"
                   >
-                    Live Demo
+                    {t.projects.liveDemo}
                     <ExternalLink className="w-4 h-4" />
                   </a>
                 ) : (
@@ -61,7 +65,7 @@ export function ProjectDetailPage() {
                     to={primaryDemo.href}
                     className="min-h-12 px-5 rounded-full bg-accent text-accent-foreground font-semibold inline-flex items-center gap-2"
                   >
-                    Live Demo
+                    {t.projects.liveDemo}
                     <ExternalLink className="w-4 h-4" />
                   </Link>
                 ))}
@@ -72,7 +76,7 @@ export function ProjectDetailPage() {
                   rel="noopener noreferrer"
                   className="min-h-12 px-5 rounded-full glass font-semibold inline-flex items-center gap-2"
                 >
-                  View Code
+                  {t.projects.viewCode}
                   <Github className="w-4 h-4" />
                 </a>
               )}
@@ -85,7 +89,7 @@ export function ProjectDetailPage() {
             {project.image ? (
               <img
                 src={project.image}
-                alt={`${project.title} preview`}
+                alt={interpolate(t.projects.previewAlt, { title: project.title })}
                 className="w-full h-full object-cover"
                 loading="eager"
                 decoding="async"
@@ -124,14 +128,14 @@ export function ProjectDetailPage() {
           )}
 
           <section className="mb-10">
-            <h2 className="text-2xl font-semibold mb-3">Overview</h2>
+            <h2 className="text-2xl font-semibold mb-3">{t.projects.overview}</h2>
             <p className="text-muted-foreground leading-relaxed">
               {project.overview ?? project.description}
             </p>
           </section>
 
           <section className="mb-10">
-            <h2 className="text-2xl font-semibold mb-4">Technologies</h2>
+            <h2 className="text-2xl font-semibold mb-4">{t.projects.technologies}</h2>
             <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
               {project.technologies.map((tech) => (
                 <li
@@ -146,7 +150,7 @@ export function ProjectDetailPage() {
 
           {project.features && project.features.length > 0 && (
             <section className="mb-10">
-              <h2 className="text-2xl font-semibold mb-4">Key Features</h2>
+              <h2 className="text-2xl font-semibold mb-4">{t.projects.keyFeatures}</h2>
               <ul className="space-y-3">
                 {project.features.map((feature) => (
                   <li key={feature} className="flex items-start gap-3 text-muted-foreground">
@@ -160,7 +164,7 @@ export function ProjectDetailPage() {
 
           {project.architecture && project.architecture.length > 0 && (
             <section>
-              <h2 className="text-2xl font-semibold mb-4">Architecture</h2>
+              <h2 className="text-2xl font-semibold mb-4">{t.projects.architecture}</h2>
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {project.architecture.map((layer) => (
                   <div key={layer.label} className="glow-card rounded-2xl p-5">
