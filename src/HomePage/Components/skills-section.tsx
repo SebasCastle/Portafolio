@@ -1,4 +1,5 @@
 import { motion, useReducedMotion } from "framer-motion"
+import { TechIcon } from "@/Components/icons/TechIcon"
 import { SectionHeading } from "@/Components/ui/section-heading"
 import { skillCategories } from "@/data/skills"
 import { useI18n } from "@/i18n"
@@ -39,9 +40,7 @@ export function SkillsSection() {
                     key={item.name}
                     className="flex items-center gap-2.5 rounded-xl bg-white/[0.03] px-3 py-2.5 min-h-11"
                   >
-                    <span className="text-xl" aria-hidden>
-                      {item.icon}
-                    </span>
+                    <TechIcon id={item.icon} />
                     <span className="text-sm font-medium">{item.name}</span>
                   </li>
                 ))}

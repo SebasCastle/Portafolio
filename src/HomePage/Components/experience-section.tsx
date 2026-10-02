@@ -1,4 +1,5 @@
 import { motion, useReducedMotion } from "framer-motion"
+import { JourneyIcon } from "@/Components/icons/JourneyIcon"
 import { SectionHeading } from "@/Components/ui/section-heading"
 import { journeyItems } from "@/data/journey"
 import { useI18n } from "@/i18n"
@@ -34,9 +35,7 @@ export function ExperienceSection() {
                   <span className="absolute left-4 sm:left-6 top-6 h-3 w-3 -translate-x-1/2 rounded-full bg-accent shadow-[0_0_0_4px_rgba(59,130,246,0.2)]" />
                   <article className="glow-card rounded-2xl p-5 sm:p-6">
                     <div className="flex items-center gap-3 mb-2">
-                      <span className="text-2xl" aria-hidden>
-                        {item.icon}
-                      </span>
+                      <JourneyIcon journeyId={item.id} />
                       <span className="text-accent font-mono text-xs sm:text-sm">
                         {copy?.period ?? item.period}
                       </span>
