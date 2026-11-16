@@ -230,7 +230,7 @@ export const projects: Project[] = [
     demos: [{ label: "Live Demo", href: "https://orbe-front-yefk-rho.vercel.app/" }],
     gradient: "from-purple-500/25 via-blue-500/10 to-fuchsia-500/15",
     icon: "⭕",
-    image: "/projects/Orbe-oracle.webp",
+    image: "/projects/Orbe-orcle.webp",
     features: ["Media discovery across multiple services", "Built with Java and Spring Boot"],
   },
   {
