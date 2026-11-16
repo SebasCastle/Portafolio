@@ -249,7 +249,7 @@ export const projects: Project[] = [
     demos: [{ label: "Live Demo", href: "https://invest-ia-front-end.vercel.app" }],
     gradient: "from-green-300/25 via-blue-500/10 to-teal-500/15",
     icon: "💹",
-    image: "/projects/investIA.webp",
+    image: "/projects/InvestIA.webp",
     features: ["Real market data exploration", "AI tool discovery", "Cloud platform exploration"],
   },
   {
